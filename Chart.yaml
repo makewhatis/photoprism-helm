@@ -5,3 +5,7 @@ appVersion: "20190703"
 version: 0.1.0
 sources:
 - https://github.com/photoprism/photoprism
+dependencies:
+- name: mariadb
+  version: 11.1.7
+  repository: https://charts.bitnami.com/bitnami

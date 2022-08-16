@@ -45,12 +45,12 @@ persistence:
   volumes:
   - name: originals
     nfs:
-      server: my.nas.hostname
-      path: /media
+      server: 10.23.9.3
+      path: /k3s/photoprism/originals
   - name: storage
     nfs:
-      server: my.nas.hostname
-      path: /photoprism
+      server: 10.23.9.3
+      path: /k3s/photoprism/storage
 
   # volumeClaimTemplates:
   # - metadata:
@@ -67,20 +67,20 @@ service:
   type: ClusterIP
   port: 80
 
-ingress:
-  enabled: false
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    kubernetes.io/tls-acme: "true"
-    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
-  hosts:
-  - host: my.domain.com
-    paths:
-    - /
-  tls:
-  - hosts:
-    - my.domain.com
-    secretName: photoprism-cert
+#ingress:
+#  enabled: false
+#  annotations:
+#    kubernetes.io/ingress.class: nginx
+#    kubernetes.io/tls-acme: "true"
+#    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+#  hosts:
+#  - host: my.domain.com
+#    paths:
+#    - /
+#  tls:
+#  - hosts:
+#    - my.domain.com
+#    secretName: photoprism-cert
 
 # securityContext:
 #   fsGroup: 100
@@ -99,15 +99,19 @@ resources:
 
 # affinity: {}
 
-
 # To use a remote MySQL instance, set the value for driver to 'mysql'
 database:
-  driver: sqlite
-# Set these values only if the mysql driver is used
-  # name: photoprism
-  # user: photoprism
-  # password: photoprism
-  # port: 3306
-  # host: mariadb.db-mariadb
-# Ignore above settings and use existing secret for database DSN. Key 'PHOTOPRISM_DATABASE_DSN'
-  # existingSecret:
+  driver: mysql
+  name: photoprism
+  user: photo_user
+  password: Xlu9jGh7ckv1YSUPFFZXtMG2OLyNO8qKD
+  port: 3306
+  host: mariadb.rosedr.svc.cluster.local
+
+
+mariadb:
+  auth:
+    rootPassword: 6zyX0TRRJXvqt2mC4SfKSktXFU4h8mTv
+    database: prism
+    username: photo_user
+    password: Xlu9jGh7ckv1YSUPFFZXtMG2OLyNO8qKD
